@@ -254,7 +254,7 @@ class Exporter():
         signal.signal(signal.SIGINT, self.sigint_handler)
         if self.config['ops_mode'] == 'http':
             # Start up the server to expose the metrics.
-            start_http_server(self.config['http_port'], addr=self.config['addr'], registry=self.registry)
+            start_http_server(int(self.config['http_port']), addr=self.config['addr'], registry=self.registry)
         if not bool(self.config['clients_table_enabled']):
             self.log.info('Clients Table option is disabled. All clients will be identified as \"unidentified\"')
         while True:
@@ -265,10 +265,10 @@ class Exporter():
                 if self.config['ops_mode'] == 'oneshot':
                     self.log.info("Exiting after successful metrics fetch...")
                     break
-                time.sleep(self.config['scrape_interval'])
+                time.sleep(int(self.config['scrape_interval']))
             except Exception as e:
                 self.log.error(f"{str(e)}")
-                time.sleep(self.config['scrape_interval'])
+                time.sleep(int(self.config['scrape_interval']))
 
 
 if __name__ == '__main__':
